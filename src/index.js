@@ -1,6 +1,6 @@
 import './css/styles.css';
 import Notiflix from 'notiflix';
-import { APICountriesServer } from '/fetchCountries.js';
+import { fetchCountries } from '/fetchCountries.js';
 var debounce = require('lodash.debounce');
 const DEBOUNCE_DELAY = 300;
 
@@ -8,19 +8,19 @@ const refs = {
     input: document.querySelector('#search-box'),
     countryList: document.querySelector('.country-list')
 }
-const apiCountriesServer = new APICountriesServer();
+// const apiCountriesServer = new APICountriesServer();
 
 refs.input.addEventListener('input', debounce(onSearch, DEBOUNCE_DELAY));
 refs.input.addEventListener('keypress', CheckEnglish);
 
 function onSearch(e) {
     e.preventDefault;
-    apiCountriesServer.query = (refs.input.value).trim();
-    apiCountriesServer.resetPage();
-    apiCountriesServer.fetchCountries(refs.input.value)
+    // apiCountriesServer.query = (refs.input.value).trim();
+    // apiCountriesServer.resetPage();
+    fetchCountries(refs.input.value.trim())
         .then(r => r.json())
         .then(countries => {
-            apiCountriesServer.incrementPage();
+            // apiCountriesServer.incrementPage();
             if (countries.status === 404) {
                 return Promise.reject();
             }
@@ -33,20 +33,19 @@ function onSearch(e) {
 }
 
 function limitCountries(countries) {
+    refs.countryList.innerHTML = "";
     if (countries.length >= 10) {
         Notiflix.Notify.info("Too many matches found. Please enter a more specific name.", {
             timeout: 3000,
         })
     }
     if (countries.length < 10 && countries.length >= 2) {
-        refs.countryList.innerHTML = "";
         countries.forEach(country => {
             refs.countryList.insertAdjacentHTML('beforeend', `<li><img src="${country.flags.png}"></li><li>${country.name}</li>`);
 
         });
     }
     if (countries.length === 1) {
-        refs.countryList.innerHTML = "";
         const languages = countries[0].languages.map(language => language.name);
         refs.countryList.insertAdjacentHTML(
             'beforeend',
