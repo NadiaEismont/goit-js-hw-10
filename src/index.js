@@ -2,6 +2,8 @@ import './css/styles.css';
 import Notiflix from 'notiflix';
 import { fetchCountries } from '/fetchCountries.js';
 var debounce = require('lodash.debounce');
+
+import template from '/template.hbs';
 const DEBOUNCE_DELAY = 300;
 
 const refs = {
@@ -46,12 +48,18 @@ function limitCountries(countries) {
         });
     }
     if (countries.length === 1) {
-        const languages = countries[0].languages.map(language => language.name);
+        // const languageList = countries[0].languages.map(language => language.name).join();
+
+        Handlebars.registerHelper('print_languages', function () {
+            console.log(this);
+            return this.languages.map(language => language.name).join();
+        })
+
         refs.countryList.insertAdjacentHTML(
-            'beforeend',
-            `<li><img src="${countries[0].flags.png}"></li>
-             <li>${countries[0].name}</li><li class="countiesAttribute"><b>Capital:</b>&nbsp;${countries[0].capital}</li>
-             <li class="countiesAttribute"><b>Population:</b>&nbsp;${countries[0].population}</li><li class="countiesAttribute"><b>Languages:</b>&nbsp;${languages.join()}</li>`);
+            'beforeend', template({ countries: countries }));
+        //         `<li><img src="${countries[0].flags.png}"></li>
+        //          <li>${countries[0].name}</li><li class="countiesAttribute"><b>Capital:</b>&nbsp;${countries[0].capital}</li>
+        //          <li class="countiesAttribute"><b>Population:</b>&nbsp;${countries[0].population}</li><li class="countiesAttribute"><b>Languages:</b>&nbsp;${languages.join()}</li>`);
 
 
     }
