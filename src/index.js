@@ -48,20 +48,9 @@ function limitCountries(countries) {
         });
     }
     if (countries.length === 1) {
-        // const languageList = countries[0].languages.map(language => language.name).join();
-
-        Handlebars.registerHelper('print_languages', function () {
-            console.log(this);
-            return this.languages.map(language => language.name).join();
-        })
-
+        // countries.languages.split(' ');
         refs.countryList.insertAdjacentHTML(
             'beforeend', template({ countries: countries }));
-        //         `<li><img src="${countries[0].flags.png}"></li>
-        //          <li>${countries[0].name}</li><li class="countiesAttribute"><b>Capital:</b>&nbsp;${countries[0].capital}</li>
-        //          <li class="countiesAttribute"><b>Population:</b>&nbsp;${countries[0].population}</li><li class="countiesAttribute"><b>Languages:</b>&nbsp;${languages.join()}</li>`);
-
-
     }
 }
 

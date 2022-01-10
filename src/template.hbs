@@ -2,5 +2,6 @@
 <li><img src="{{flags.png}}"></li>
              <li>{{name}}</li>
              <li class="countiesAttribute"><b>Capital:</b>&nbsp;{{capital}}</li>
-             <li class="countiesAttribute"><b>Population:</b>&nbsp;{{population}}</li><li class="countiesAttribute"><b>Languages:</b>&nbsp;{{print_languages}}</li>
+             <li class="countiesAttribute"><b>Population:</b>&nbsp;{{population}}</li>
+             <li class="countiesAttribute"><b>Languages:</b>&nbsp;{{#each languages }}<p class="lang">{{name}}</p>{{/each}}</li>
 {{/each}}
